@@ -1,0 +1,18 @@
+{
+  "attendances": [
+    {
+      "id": "5248",
+      "date": "2025-07-26",
+      "students": [
+        "Afranur Murat"
+      ]
+    },
+    {
+      "id": "4c7a",
+      "date": "2025-07-29",
+      "students": [
+        "Afranur Murat"
+      ]
+    }
+  ]
+}

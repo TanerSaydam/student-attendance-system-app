@@ -1,0 +1,95 @@
+<div class="container-fluid">
+    <div class="main-container fade-in">
+        <div class="header">
+            <h1><i class="fas fa-users"></i> Öğrenci Yoklama Sistemi</h1>
+            <p class="subtitle">Günlük devam takip sistemi</p>
+        </div>
+
+        <div class="attendance-table">
+            <div class="responsive-table">
+                <div class="table-container">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th style="text-align: left; width: 200px;">
+                                    <i class="fas fa-user"></i> Öğrenci
+                                </th>
+                                @for(date of dates(); track date){
+                                    <th>
+                                        <div class="date-header" style="width: 100px;">{{date | date: 'dd MMM yyyy'}}</div>
+                                        <div class="day-name">{{date | date:'EEEE'}}</div>
+                                    </th>
+                                }
+                                <th>Geldiği Günler</th>
+                                <th>Gelmediği Günler</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentTableBody">
+                            @for(student of students(); track student; let i = $index){
+                                <tr>
+                                    <td>{{i + 1}}</td>
+                                    <td>
+                                        <div class="student-name">{{student}}</div>
+                                    </td>
+                                    @for(date of dates(); track date){
+                                        <td class="text-center">
+                                            <div class="attendance-checkbox">
+                                                <input (change)="toggleCheckbox(date, student)" type="checkbox" id="student1_day1-{{date}}-{{i}}" [checked]="toggleCheckboxMark(date, student)">
+                                                <label for="student1_day1-{{date}}-{{i}}"></label>
+                                            </div>
+                                        </td>
+                                    }
+
+                                    <td class="text-center">
+                                        <div style="display: flex; justify-content: center;">
+                                            <div class="alert alert-success">
+                                                {{calculateTotalByStudent(student)}}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                         <div style="display: flex; justify-content: center;">
+                                             <div class="alert alert-danger">
+                                                 {{ courseDates() - calculateTotalByStudent(student) }}
+                                             </div>
+                                         </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot style="height: 100px; font-weight: 600;">
+                            <tr>
+                                <td></td>
+                                <td>Toplamlar</td>
+                                @for(date of dates(); track date){
+                                    <td>
+                                        <div style="display: flex; justify-content: center;">
+                                             <div class="alert" [ngClass]="calculateDateTotal(date) === 0 ? 'alert-secondary' : 'alert-success'">
+                                                 {{calculateDateTotal(date)}}
+                                             </div>
+                                         </div>
+                                    </td>
+                                }
+                                <td>
+                                    <div style="display: flex; justify-content: center;">
+                                        <div class="alert alert-success text-center">
+                                            {{totalParticipants()}}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="display: flex; justify-content: center;">
+                                        <div class="alert alert-danger text-center">
+                                            {{totalNumberOfCoursesToBeAttended() - totalParticipants()}}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
